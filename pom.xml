@@ -101,4 +101,11 @@
         </plugin>
       </plugins>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>exploitables-repository-releases</id>
+      <url>https://reposilite.exploitables.net/releases</url>
+    </repository>
+  </distributionManagement>
 </project>
