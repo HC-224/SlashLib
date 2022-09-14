@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.discord4j:discord4j-core:3.2.3")
+    implementation("com.discord4j:discord4j-core:3.2.3")
 }
 
 group = "net.exploitables"
