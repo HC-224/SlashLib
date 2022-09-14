@@ -4,6 +4,7 @@
 
 plugins {
     java
+    signing
     `maven-publish`
 }
 
@@ -31,6 +32,17 @@ java {
 publishing {
     publications.create<MavenPublication>("maven") {
         from(components["java"])
+    }
+    repositories {
+        maven {
+            @Suppress("SpellCheckingInspection")
+            name = "ExploitablesReposiliteReleases"
+            url = uri("https://reposilite.exploitables.net/releases")
+            credentials(PasswordCredentials::class)
+            authentication {
+                create<BasicAuthentication>("basic")
+            }
+        }
     }
 }
 
