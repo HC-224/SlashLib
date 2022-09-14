@@ -17,8 +17,28 @@ SlashLib does not handle:
 - Discord Interaction Permissions, but there is no conflict if they are used.
 
 # Getting Started
-SlashLib is not on Maven Central or available remotely, you will have to install it locally according to your build system.
-<br />
+
+You can add the following repository for use in Maven or Gradle:
+```xml
+<repository>
+    <id>exploitables-repository-releases</id>
+    <name>Exploitables Reposilite Repository</name>
+    <url>https://reposilite.exploitables.net/releases</url>
+</repository>
+```
+
+Then add SlashLib as a dependency:
+
+```xml
+<dependency>
+    <groupId>net.exploitables</groupId>
+    <artifactId>SlashLib</artifactId>
+    <version><!--VERSION--></version>
+</dependency>
+```
+
+After this you can refresh your pom.xml/build.gradle 
+
 Simple full-working examples are provided in the [test package](https://github.com/HC-224/SlashLib/tree/master/src/test/java/net/exploitables/slashlib).
 - `basic`: Use most features offered by SlashLib.
 - `context`: Extend context classes to add your custom classes to the command lifecycle.
