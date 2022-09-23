@@ -20,7 +20,7 @@ dependencies {
 }
 
 group = "net.exploitables"
-version = "1.2.4"
+version = "1.2.4-3.2.3"
 description = "SlashLib"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
