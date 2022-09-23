@@ -16,11 +16,11 @@ repositories {
 }
 
 dependencies {
-    implementation("com.discord4j:discord4j-core:3.2.3")
+    implementation("com.discord4j:discord4j-core:3.2.2")
 }
 
 group = "net.exploitables"
-version = "1.2.4"
+version = "1.2.4-3.2.2"
 description = "SlashLib"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
