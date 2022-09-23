@@ -1,5 +1,7 @@
 # target build files
 target
+.gradle
+build
 
 ######################################
 # The Following is from toptotal.com #
