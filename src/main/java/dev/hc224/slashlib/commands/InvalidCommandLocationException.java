@@ -1,0 +1,21 @@
+package dev.hc224.slashlib.commands;
+
+/**
+ * An exception thrown when trying to place one of the (sub)classes of
+ * {@link BaseCommand} in the wrong location of the command structure.
+ *
+ * The app should not ignore or continue after this exception is thrown. The command structure should be fixed instead.
+ */
+public class InvalidCommandLocationException extends RuntimeException {
+    public InvalidCommandLocationException(BaseCommand command) {
+        super("Cannot add command " + command.getClass().getSimpleName() + " to the top level, must be GenericTopCommand or GenericTopGroupCommand");
+    }
+
+    public InvalidCommandLocationException(BaseCommand command, String types) {
+        super("Cannot make command " + command.getClass().getSimpleName() + " a top level command, must be " + types + " instead");
+    }
+
+    public InvalidCommandLocationException(BaseCommand command, BaseCommand parent, String types) {
+        super("Cannot make command " + command.getClass().getSimpleName() + " a child command of " + parent.getClass().getSimpleName() + ", must be " + types + " instead");
+    }
+}

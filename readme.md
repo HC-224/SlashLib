@@ -43,14 +43,14 @@ Then add SlashLib as a dependency:
 ```xml
 <!--Maven-->
 <dependency>
-    <groupId>net.exploitables</groupId>
+    <groupId>dev.hc224</groupId>
     <artifactId>SlashLib</artifactId>
     <version><!--VERSION--></version>
 </dependency>
 ```
 ```groovy
 // Gradle
-implementation 'net.exploitables:SlashLib:VERSION'
+implementation 'dev.hc224:SlashLib:VERSION'
 ```
 
 The version is a composite of the SlashLib version and Discord4J version you are using. Look at the 

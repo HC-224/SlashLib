@@ -19,8 +19,8 @@ dependencies {
     implementation("com.discord4j:discord4j-core:3.2.3")
 }
 
-group = "net.exploitables"
-version = "1.2.4"
+group = "dev.hc224"
+version = "1.2.5"
 description = "SlashLib"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
@@ -35,9 +35,8 @@ publishing {
     }
     repositories {
         maven {
-            @Suppress("SpellCheckingInspection")
-            name = "ExploitablesReposiliteReleases"
-            url = uri("https://reposilite.exploitables.net/releases")
+            name = "HC224Releases"
+            url = uri("https://reposilite.hc224.dev/releases")
             credentials(PasswordCredentials::class)
             authentication {
                 create<BasicAuthentication>("basic")
