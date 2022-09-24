@@ -20,24 +20,47 @@ SlashLib does not handle:
 
 You can add the following repository for use in Maven or Gradle:
 ```xml
-<repository>
-    <id>exploitables-repository-releases</id>
-    <name>Exploitables Reposilite Repository</name>
-    <url>https://reposilite.exploitables.net/releases</url>
-</repository>
+<!--Maven-->
+<repositories>
+    <repository>
+        <id>exploitables-repository-releases</id>
+        <name>Exploitables Reposilite Repository</name>
+        <url>https://reposilite.exploitables.net/releases</url>
+    </repository>
+</repositories>
+```
+```groovy
+// Gradle
+repositories {
+    maven {
+        url = uri("https://reposilite.exploitables.net/releases")
+    }
+}
 ```
 
 Then add SlashLib as a dependency:
 
 ```xml
+<!--Maven-->
 <dependency>
-    <groupId>net.exploitables</groupId>
+    <groupId>dev.hc224</groupId>
     <artifactId>SlashLib</artifactId>
     <version><!--VERSION--></version>
 </dependency>
 ```
+```groovy
+// Gradle
+implementation 'dev.hc224:SlashLib:VERSION'
+```
 
-After this you can refresh your pom.xml/build.gradle 
+The version is a composite of the SlashLib version and Discord4J version you are using. Look at the 
+[releases](https://github.com/HC-224/SlashLib/releases) page to see available versions. 
+
+For example, if you wanted to use "SlashLib 1.2.4 for D4J 3.2.3" you would use `1.2.4-3.2.3` for the version.
+
+Don't forget to refresh your maven/gradle file!
+
+# Examples
 
 Simple full-working examples are provided in the [test package](https://github.com/HC-224/SlashLib/tree/master/src/test/java/net/exploitables/slashlib).
 - `basic`: Use most features offered by SlashLib.
