@@ -50,7 +50,7 @@ Then add SlashLib as a dependency:
 ```
 ```groovy
 // Gradle
-implementation 'dev.hc224:SlashLib:VERSION'
+implementation "dev.hc224:SlashLib:VERSION"
 ```
 
 The version is a composite of the SlashLib version and Discord4J version you are using. Look at the 
