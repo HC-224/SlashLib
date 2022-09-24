@@ -1,4 +1,4 @@
-name: Publish to Exploitables Repository Release
+name: Publish to hc224.dev Repository Release
 # Publish manually
 on:
   workflow_dispatch:
@@ -22,8 +22,8 @@ jobs:
         shell: bash
         run: |
           mkdir -p ~/.gradle/
-          echo "ExploitablesReposiliteReleasesUsername=$MAVEN_NAME" >> ~/.gradle/gradle.properties
-          echo "ExploitablesReposiliteReleasesPassword=$MAVEN_TOKEN" >> ~/.gradle/gradle.properties
+          echo "HC224ReleasesUsername=$MAVEN_NAME" >> ~/.gradle/gradle.properties
+          echo "HC224ReleasesPassword=$MAVEN_TOKEN" >> ~/.gradle/gradle.properties
       - name: Publish with Gradle
         run: ./gradlew build publish
 

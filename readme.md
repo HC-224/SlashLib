@@ -23,9 +23,9 @@ You can add the following repository for use in Maven or Gradle:
 <!--Maven-->
 <repositories>
     <repository>
-        <id>exploitables-repository-releases</id>
-        <name>Exploitables Reposilite Repository</name>
-        <url>https://reposilite.exploitables.net/releases</url>
+        <id>hc224-repository-releases</id>
+        <name>HC224 Reposilite Repository</name>
+        <url>https://reposilite.hc224.dev/releases</url>
     </repository>
 </repositories>
 ```
@@ -33,7 +33,7 @@ You can add the following repository for use in Maven or Gradle:
 // Gradle
 repositories {
     maven {
-        url = uri("https://reposilite.exploitables.net/releases")
+        url = uri("https://reposilite.hc224.dev/releases")
     }
 }
 ```
@@ -50,13 +50,13 @@ Then add SlashLib as a dependency:
 ```
 ```groovy
 // Gradle
-implementation 'dev.hc224:SlashLib:VERSION'
+implementation "dev.hc224:SlashLib:VERSION"
 ```
 
 The version is a composite of the SlashLib version and Discord4J version you are using. Look at the 
 [releases](https://github.com/HC-224/SlashLib/releases) page to see available versions. 
 
-For example, if you wanted to use "SlashLib 1.2.4 for D4J 3.2.3" you would use `1.2.4-3.2.3` for the version.
+For example, if you wanted to use "SlashLib 1.2.5 for D4J 3.2.3" you would use `1.2.4-3.2.3` for the version.
 
 Don't forget to refresh your maven/gradle file!
 
