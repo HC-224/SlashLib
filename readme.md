@@ -23,9 +23,9 @@ You can add the following repository for use in Maven or Gradle:
 <!--Maven-->
 <repositories>
     <repository>
-        <id>exploitables-repository-releases</id>
-        <name>Exploitables Reposilite Repository</name>
-        <url>https://reposilite.exploitables.net/releases</url>
+        <id>hc224-repository-releases</id>
+        <name>HC224 Reposilite Repository</name>
+        <url>https://reposilite.hc224.dev/releases</url>
     </repository>
 </repositories>
 ```
@@ -33,7 +33,7 @@ You can add the following repository for use in Maven or Gradle:
 // Gradle
 repositories {
     maven {
-        url = uri("https://reposilite.exploitables.net/releases")
+        url = uri("https://reposilite.hc224.dev/releases")
     }
 }
 ```
