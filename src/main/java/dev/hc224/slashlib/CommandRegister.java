@@ -447,19 +447,13 @@ public class CommandRegister<
      * The default member permission must be set in the {@link ApplicationCommandRequest} but doesn't have to be present
      * in a {@link ApplicationCommandData}. This checks for equivalency between the two.
      *
-     * @param p1 a Possible representing the default permission value
-     * @param p2 a Possible representing the default permission value
-     * @return true if the two possibles are equivalent in the context of being set for the default permission
+     * @param p1 a Possible representing the default member permission value
+     * @param p2 a Possible representing the default member permission value
+     * @return true if the two possibles are equivalent in the context of being set for the default member permission
      */
-    private boolean defaultMemberPermissionEquals(Optional<String> p1, Optional<String> p2) {
-        // The data may not have the permission value present due to behavior as of D4J v3.2.0-RC2
-        // By default, D4J will set the requests' default permission to true
-
-        // Each half will return true if the value itself is true or if it is not present (two states for true)
-        //  it will return false only when the value itself is false
-        // In total this statement will return true only if the values equate to the default permission being true,
-        //  or both values are false
-        return p1.orElse("0").equals(p2.orElse("0"));
+    private boolean defaultMemberPermissionEquals(Optional<String> o1, Optional<String> o2) {
+        // Each half will return a set of permissions whereby default can be 0 if are not set
+        return o1.orElse("0").equals(o2.orElse("0"));
     }
 
     public CommandStructure<IC, IB, UC, UB, MC, MB> getCommandStructure() { return commandStructure; }
