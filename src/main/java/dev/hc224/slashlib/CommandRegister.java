@@ -447,13 +447,13 @@ public class CommandRegister<
      * The default member permission must be set in the {@link ApplicationCommandRequest} but doesn't have to be present
      * in a {@link ApplicationCommandData}. This checks for equivalency between the two.
      *
-     * @param p1 a Possible representing the default member permission value
-     * @param p2 a Possible representing the default member permission value
-     * @return true if the two possibles are equivalent in the context of being set for the default member permission
+     * @param o1 an Optional representing the default member permission value
+     * @param o2 an Optional representing the default member permission value
+     * @return true if the two optionals are equivalent in the context of being set for the default member permission
      */
     private boolean defaultMemberPermissionEquals(Optional<String> o1, Optional<String> o2) {
         // Each half will return a set of permissions whereby default can be 0 if are not set
-        return o1.orElse("0").equals(o2.orElse("0"));
+        return o1.orElse("-1").equals(o2.orElse("-1"));
     }
 
     public CommandStructure<IC, IB, UC, UB, MC, MB> getCommandStructure() { return commandStructure; }
