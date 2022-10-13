@@ -2,10 +2,7 @@ package dev.hc224.slashlib.example.basic;
 
 import dev.hc224.slashlib.SlashLib;
 import dev.hc224.slashlib.SlashLibBuilder;
-import dev.hc224.slashlib.example.basic.interactions.chat.About;
-import dev.hc224.slashlib.example.basic.interactions.chat.Echo;
-import dev.hc224.slashlib.example.basic.interactions.chat.Ping;
-import dev.hc224.slashlib.example.basic.interactions.chat.TestBan;
+import dev.hc224.slashlib.example.basic.interactions.chat.*;
 import dev.hc224.slashlib.example.basic.interactions.chat.choices.ChoicesGroup;
 import dev.hc224.slashlib.example.basic.interactions.chat.info.InfoGroup;
 import dev.hc224.slashlib.example.basic.interactions.message.MessageInfo;
@@ -45,6 +42,7 @@ public class BasicExampleBot {
             .addGlobalChatCommand(new Echo())
             .addGlobalChatCommand(new About())
             .addGlobalChatCommand(new TestBan())
+            .addGlobalChatCommand(new TestBanEnforce())
             .addGlobalChatCommand(new InfoGroup())
             .addGlobalChatCommand(new ChoicesGroup())
             // Add User commands

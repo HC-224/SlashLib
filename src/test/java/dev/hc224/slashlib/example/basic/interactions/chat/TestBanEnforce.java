@@ -9,12 +9,15 @@ import reactor.core.publisher.Mono;
 /**
  * An example command which requires the bot and calling user to have the `BAN_MEMBERS` permission.
  * This won't actually ban anyone, it is used to demo/test the permissions checking logic.
+ * <p>
+ * This version will enforce checking the users permissions.
  */
-public class TestBan extends TopCommand {
-    public TestBan() {
-        super("test-ban", "check the permissions needed to ban a user");
+public class TestBanEnforce extends TopCommand {
+    public TestBanEnforce() {
+        super("test-ban-enforce", "check the permissions needed to ban a user, enforces permissions");
         setBotPermissions(Permission.BAN_MEMBERS);
         setDefaultMemberPermissions(Permission.BAN_MEMBERS);
+        setEnforceMemberPermission();
     }
 
     @Override
@@ -24,8 +27,8 @@ public class TestBan extends TopCommand {
 
         // We have required the bot user be present
         //noinspection OptionalGetWithoutIsPresent
-        return context.getEvent().reply(context.getBotUser().get().getUsername() +
-                " has the ban permission, and " + context.getUser().getUsername() + " may have the ban permission.")
+        return context.getEvent().reply("Both " + context.getBotUser().get().getUsername() +
+            " and " + context.getUser().getUsername() + " have the `BAN_MEMBERS` permission.")
             .thenReturn(context);
     }
 
