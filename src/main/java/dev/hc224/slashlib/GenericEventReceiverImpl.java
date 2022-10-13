@@ -11,13 +11,6 @@ import discord4j.rest.util.Color;
 import reactor.core.publisher.Mono;
 
 /**
- * A Local class which contains the results of a permissions check.
- */
-class PermissionResult {
-
-}
-
-/**
  * Core logic and implementation for processing received interactions and executing the relevant command logic.
  *
  * @param <IC> The {@link Class} used for the {@link ChatContext}        provided to commands for execution
