@@ -47,12 +47,16 @@ public class GenericEventReceiverImpl<
      */
     // I do not like the logic in this method, duplicated channel casts and filters
     private <E extends InteractionCreateEvent, B extends BaseCommand> Mono<Boolean> checkPermissions(E event, B baseCommand) {
+        // We ensure `baseCommand.getDefaultMemberPermission().get()` is present when enforcing member permissions
+        //noinspection OptionalGetWithoutIsPresent
         return event.getInteraction().getChannel()
             // Check guild permissions, this will go empty if in DMs
             .ofType(GuildChannel.class)
             // Check permissions if they are set
             .flatMap(gc -> Mono.zip(gc.getEffectivePermissions(event.getClient().getSelfId()), gc.getEffectivePermissions(event.getInteraction().getUser().getId())))
-            .map(t2 -> t2.getT1().containsAll(baseCommand.getBotPermissions()) && t2.getT2().containsAll(baseCommand.getUserPermissions()))
+            .map(t2 -> t2.getT1().containsAll(baseCommand.getBotPermissions())
+                    // If we're enforcing member permissions then check them as well.
+                    && (!baseCommand.getEnforceMemberPermissions() || t2.getT2().containsAll(baseCommand.getDefaultMemberPermissions().get())))
             .filter(Boolean::booleanValue)
             // If guild perms failed, then check DM eligibility
             .switchIfEmpty(event.getInteraction().getChannel().ofType(PrivateChannel.class)
@@ -75,8 +79,13 @@ public class GenericEventReceiverImpl<
         if (!baseCommand.getBotPermissions().isEmpty()) {
             embed.addField("Required Bot Permissions", "`" + baseCommand.getBotPermissions().asEnumSet() + "`", false);
         }
-        if (!baseCommand.getUserPermissions().isEmpty()) {
-            embed.addField("Required User Permissions", "`" + baseCommand.getUserPermissions().asEnumSet() + "`", false);
+        // Only show the member permissions if they are enforced.
+        // Discord won't let members use commands if they lack permissions.
+        // However, they can use commands if a server admin allows them to.
+        if (baseCommand.getEnforceMemberPermissions()) {
+            // BaseCommand requires permissions to be set for enforcement.
+            //noinspection OptionalGetWithoutIsPresent
+            embed.addField("Required User Permissions", "`" + baseCommand.getDefaultMemberPermissions().get().asEnumSet() + "`", false);
         }
 
         return InteractionApplicationCommandCallbackSpec.builder().addEmbed(embed.build()).ephemeral(true).build();

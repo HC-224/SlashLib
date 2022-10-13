@@ -15,11 +15,7 @@ import discord4j.rest.service.ApplicationService;
 import reactor.util.Logger;
 import reactor.util.Loggers;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Logic to interact with Discord and create/modify/delete guild and global commands.
@@ -412,7 +408,6 @@ public class CommandRegister<
     private boolean commandDataEqualsRequest(ApplicationCommandData acd, ApplicationCommandRequest acr) {
         if (!(acr.name().equals(acd.name())
             && acr.description().toOptional().map(desc -> desc.equals(acd.description())).orElse(false)
-            && defaultPermissionEquals(acr.defaultPermission(), acd.defaultPermission())
             && defaultMemberPermissionEquals(acr.defaultMemberPermissions(), acd.defaultMemberPermissions()) )) {
             return false;
         }

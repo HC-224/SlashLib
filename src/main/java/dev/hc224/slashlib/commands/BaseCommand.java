@@ -8,6 +8,8 @@ import discord4j.rest.util.Permission;
 import discord4j.rest.util.PermissionSet;
 import reactor.util.annotation.Nullable;
 
+import java.util.Optional;
+
 /**
  * A class which represents all types of Slash Commands. This class should not be directly extended.
  */
@@ -18,12 +20,15 @@ public abstract class BaseCommand {
     private final String description;
     // never null: The type of command this is (chat, user, message)
     private final ApplicationCommand.Type commandType;
-    // If anyone can use this command by default
-    private boolean defaultPermission;
+    // The default permissions needed to use the command
+    // null indicates "unset" and will leave this value exempt from requests and data.
+    @Nullable
+    private PermissionSet defaultMemberPermissions;
+    // If we are strictly requiring the member have permissions.
+    // Discord allows server admins to change who can use commands from the defaults.
+    private boolean enforceMemberPermissions;
     // Permissions needed by the bot
     private PermissionSet botPermissions;
-    // Permissions needed by the calling user
-    private PermissionSet userPermissions;
     // If the command can be used in DMs
     private boolean usableInDMs;
 
@@ -35,9 +40,9 @@ public abstract class BaseCommand {
         this.description = description;
         this.commandType = commandType;
 
-        this.defaultPermission = true;
+        this.defaultMemberPermissions = null;
+        this.enforceMemberPermissions = false;
         this.botPermissions = PermissionSet.none();
-        this.userPermissions = PermissionSet.none();
         this.usableInDMs = false;
     }
 
@@ -51,17 +56,43 @@ public abstract class BaseCommand {
                 .type(this.getCommandType().getValue())
                 .name(this.getName())
                 .description(this.getDescription());
-        if (!this.isDefaultPermission()) { // Avoid the need to check false against an absent possible
-            builder.defaultPermission(false);
+        if (this.defaultMemberPermissions != null) { // Only provide default permissions if they are set
+            builder.defaultMemberPermissions(String.valueOf(this.defaultMemberPermissions.getRawValue()));
         }
         return builder;
     }
 
     /**
-     * Set that this command requires a permission to be set for users to call it.
+     * Set the permissions needed for members to use this command.
+     * Discord evaluates this and allows/denies roles/members automatically based on this.
+     * Note that server moderators can override this and this does not guarantee all users that use
+     *  this command will have the permissions.
+     * <p>
+     * Leave this unset for @everyone to be able to use the command.
+     *
+     * @param permissions a list of permissions that a member needs to use the command by default
      */
-    protected void setDefaultPermissionFalse() {
-        this.defaultPermission = false;
+    protected void setDefaultMemberPermissions(Permission ... permissions) {
+        this.defaultMemberPermissions = PermissionSet.of(permissions);
+    }
+
+    /**
+     * Use classic behavior and enforce that calling members must have the default permissions.
+     * This can be useful for ensuring that a misconfigured command won't be misused.
+     * <p>
+     * Discord behavior is to enforce permissions unless a server admin overrides it.
+     * This will enforce that calling users have the permissions regardless of what server owners change.
+     * As such, this should be used sparingly to not remove too much control from server admins.
+     * <p>
+     * This should be called after {@link BaseCommand#setDefaultMemberPermissions(Permission...)}
+     *
+     * @throws IllegalStateException when no default member permissions have been set
+     */
+    protected void setEnforceMemberPermission() {
+        if (this.defaultMemberPermissions == null) {
+            throw new IllegalStateException("No member permissions have been set!");
+        }
+        this.enforceMemberPermissions = true;
     }
 
     /**
@@ -80,20 +111,11 @@ public abstract class BaseCommand {
         this.botPermissions = PermissionSet.of(permissions);
     }
 
-    /**
-     * Set the permissions the calling user needs to execute this command.
-     *
-     * @param permissions a unique list of Discord permissions
-     */
-    protected void setUserPermissions(Permission... permissions) {
-        this.userPermissions = PermissionSet.of(permissions);
-    }
-
     public String getName() { return name; }
     public String getDescription() { return description; }
     public ApplicationCommand.Type getCommandType() { return commandType; }
-    public boolean isDefaultPermission() { return defaultPermission; }
+    public Optional<PermissionSet> getDefaultMemberPermissions() { return Optional.ofNullable(defaultMemberPermissions); }
+    public boolean getEnforceMemberPermissions() { return enforceMemberPermissions; }
     public PermissionSet getBotPermissions() { return botPermissions; }
-    public PermissionSet getUserPermissions() { return userPermissions; }
     public boolean isUsableInDMs() { return usableInDMs; }
 }

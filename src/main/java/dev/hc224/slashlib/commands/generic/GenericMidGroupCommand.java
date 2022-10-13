@@ -3,6 +3,7 @@ package dev.hc224.slashlib.commands.generic;
 import dev.hc224.slashlib.commands.InvalidCommandLocationException;
 import dev.hc224.slashlib.context.ChatContext;
 import dev.hc224.slashlib.context.ChatContextBuilder;
+import discord4j.rest.util.Permission;
 
 /**
  * A Class representing a Group Command at the middle level.
@@ -30,7 +31,7 @@ public abstract class GenericMidGroupCommand<IC extends ChatContext, IB extends 
      * @throws IllegalStateException when called
      */
     @Override
-    protected void setDefaultPermissionFalse() {
-        throw new IllegalStateException("Default Permission only works on GenericTopCommand or GenericTopGroupCommand! Command: " + this.getClass().getSimpleName());
+    protected void setDefaultMemberPermissions(Permission... permissions) {
+        throw new IllegalStateException("Member permissions can only be applied to GenericTopCommand or GenericTopGroupCommand! Command: " + this.getClass().getSimpleName());
     }
 }
