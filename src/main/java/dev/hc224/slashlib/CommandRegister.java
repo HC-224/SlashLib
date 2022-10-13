@@ -18,6 +18,7 @@ import reactor.util.Loggers;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -411,7 +412,8 @@ public class CommandRegister<
     private boolean commandDataEqualsRequest(ApplicationCommandData acd, ApplicationCommandRequest acr) {
         if (!(acr.name().equals(acd.name())
             && acr.description().toOptional().map(desc -> desc.equals(acd.description())).orElse(false)
-            && defaultPermissionEquals(acr.defaultPermission(), acd.defaultPermission()) )) {
+            && defaultPermissionEquals(acr.defaultPermission(), acd.defaultPermission())
+            && defaultMemberPermissionEquals(acr.defaultMemberPermissions(), acd.defaultMemberPermissions()) )) {
             return false;
         }
 
@@ -439,6 +441,19 @@ public class CommandRegister<
         // In total this statement will return true only if the values equate to the default permission being true,
         //  or both values are false
         return p1.toOptional().orElse(true) == p2.toOptional().orElse(true);
+    }
+
+    /**
+     * The default member permission must be set in the {@link ApplicationCommandRequest} but doesn't have to be present
+     * in a {@link ApplicationCommandData}. This checks for equivalency between the two.
+     *
+     * @param p1 a Possible representing the default member permission value
+     * @param p2 a Possible representing the default member permission value
+     * @return true if the two possibles are equivalent in the context of being set for the default member permission
+     */
+    private boolean defaultMemberPermissionEquals(Optional<String> o1, Optional<String> o2) {
+        // Each half will return a set of permissions whereby default can be 0 if are not set
+        return o1.orElse("0").equals(o2.orElse("0"));
     }
 
     public CommandStructure<IC, IB, UC, UB, MC, MB> getCommandStructure() { return commandStructure; }
