@@ -20,7 +20,7 @@ dependencies {
 }
 
 group = "dev.hc224"
-version = "1.2.5"
+version = "1.3.0"
 description = "SlashLib"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
