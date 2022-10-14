@@ -4,7 +4,6 @@ import dev.hc224.slashlib.commands.BaseCommand;
 import dev.hc224.slashlib.context.*;
 import discord4j.core.event.domain.interaction.*;
 import discord4j.core.object.entity.channel.GuildChannel;
-import discord4j.core.object.entity.channel.PrivateChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.InteractionApplicationCommandCallbackSpec;
 import discord4j.rest.util.Color;
@@ -58,9 +57,6 @@ public class GenericEventReceiverImpl<
                     // If we're enforcing member permissions then check them as well.
                     && (!baseCommand.getEnforceMemberPermissions() || t2.getT2().containsAll(baseCommand.getDefaultMemberPermissions().get())))
             .filter(Boolean::booleanValue)
-            // If guild perms failed, then check DM eligibility
-            .switchIfEmpty(event.getInteraction().getChannel().ofType(PrivateChannel.class)
-                .map(_pc -> baseCommand.isUsableInDMs()))
             .filter(Boolean::booleanValue);
     }
 
@@ -74,7 +70,6 @@ public class GenericEventReceiverImpl<
         EmbedCreateSpec.Builder embed = EmbedCreateSpec.builder();
         embed.color(Color.RED);
         embed.title("Cannot execute command!");
-        embed.description((baseCommand.isUsableInDMs()) ? "This command is usable in DMs" : "This command is not usable in DMs");
 
         if (!baseCommand.getBotPermissions().isEmpty()) {
             embed.addField("Required Bot Permissions", "`" + baseCommand.getBotPermissions().asEnumSet() + "`", false);
@@ -104,7 +99,7 @@ public class GenericEventReceiverImpl<
      */
     private <E extends DeferrableInteractionEvent, B extends BaseCommand> Mono<Boolean> checkPermissionsAndReply(E event, B baseCommand) {
         return checkPermissions(event, baseCommand)
-            // No perms or not usable in DMs, send silent error message and remain empty
+            // No perms, send silent error message and remain empty
             .switchIfEmpty(Mono.defer(() -> event.reply(generateErrorMessage(baseCommand)).then(Mono.empty())));
     }
 

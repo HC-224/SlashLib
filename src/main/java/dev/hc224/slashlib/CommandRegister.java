@@ -408,6 +408,7 @@ public class CommandRegister<
     private boolean commandDataEqualsRequest(ApplicationCommandData acd, ApplicationCommandRequest acr) {
         if (!(acr.name().equals(acd.name())
             && acr.description().toOptional().map(desc -> desc.equals(acd.description())).orElse(false)
+            && dmPermissionEquals(acr.dmPermission(), acd.dmPermission())
             && defaultMemberPermissionEquals(acr.defaultMemberPermissions(), acd.defaultMemberPermissions()) )) {
             return false;
         }
@@ -427,9 +428,9 @@ public class CommandRegister<
      * @param p2 a Possible representing the default permission value
      * @return true if the two possibles are equivalent in the context of being set for the default permission
      */
-    private boolean defaultPermissionEquals(Possible<Boolean> p1, Possible<Boolean> p2) {
-        // The data may not have the permission value present due to behavior as of D4J v3.2.0-RC2
-        // By default, D4J will set the requests' default permission to true
+    private boolean dmPermissionEquals(Possible<Boolean> p1, Possible<Boolean> p2) {
+        // The possibles always seem to be present as of D4J v3.2.3
+        // By default, D4J will set the requests' dm permission to true
 
         // Each half will return true if the value itself is true or if it is not present (two states for true)
         //  it will return false only when the value itself is false

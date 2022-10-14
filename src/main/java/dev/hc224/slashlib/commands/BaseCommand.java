@@ -29,8 +29,8 @@ public abstract class BaseCommand {
     private boolean enforceMemberPermissions;
     // Permissions needed by the bot
     private PermissionSet botPermissions;
-    // If the command can be used in DMs
-    private boolean usableInDMs;
+    // If the command can be used in DMs, default true
+    private boolean dmPermission;
 
     protected BaseCommand(String name,
                           String description,
@@ -43,7 +43,7 @@ public abstract class BaseCommand {
         this.defaultMemberPermissions = null;
         this.enforceMemberPermissions = false;
         this.botPermissions = PermissionSet.none();
-        this.usableInDMs = false;
+        this.dmPermission = true;
     }
 
     public abstract ApplicationCommandRequest asRequest();
@@ -55,7 +55,8 @@ public abstract class BaseCommand {
         ImmutableApplicationCommandRequest.Builder builder = ApplicationCommandRequest.builder()
                 .type(this.getCommandType().getValue())
                 .name(this.getName())
-                .description(this.getDescription());
+                .description(this.getDescription())
+                .dmPermission(this.dmPermission);
         if (this.defaultMemberPermissions != null) { // Only provide default permissions if they are set
             builder.defaultMemberPermissions(String.valueOf(this.defaultMemberPermissions.getRawValue()));
         }
@@ -69,6 +70,9 @@ public abstract class BaseCommand {
      *  this command will have the permissions.
      * <p>
      * Leave this unset for @everyone to be able to use the command.
+     * <p>
+     * Commands are visible to users in DMs even when this is set, see {@link BaseCommand#hideFromDMs()}
+     * to prevent users from using commands there.
      *
      * @param permissions a list of permissions that a member needs to use the command by default
      */
@@ -96,10 +100,10 @@ public abstract class BaseCommand {
     }
 
     /**
-     * Set that this command can be used in DMs.
+     * Set that this command can't be used in DMs
      */
-    protected void setUsableInDMs() {
-        this.usableInDMs = true;
+    protected void hideFromDMs() {
+        this.dmPermission = false;
     }
 
     /**
@@ -117,5 +121,5 @@ public abstract class BaseCommand {
     public Optional<PermissionSet> getDefaultMemberPermissions() { return Optional.ofNullable(defaultMemberPermissions); }
     public boolean getEnforceMemberPermissions() { return enforceMemberPermissions; }
     public PermissionSet getBotPermissions() { return botPermissions; }
-    public boolean isUsableInDMs() { return usableInDMs; }
+    public boolean isUsableInDMs() { return dmPermission; }
 }
