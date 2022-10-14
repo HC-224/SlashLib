@@ -14,7 +14,6 @@ public class Ping extends TopCommand {
     public Ping() {
         // Pass the name and description to the superclass constructor
         super("ping", "get a pong!");
-        setUsableInDMs();
     }
 
     /**

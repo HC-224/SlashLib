@@ -15,10 +15,7 @@ import discord4j.rest.service.ApplicationService;
 import reactor.util.Logger;
 import reactor.util.Loggers;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Logic to interact with Discord and create/modify/delete guild and global commands.
@@ -411,7 +408,8 @@ public class CommandRegister<
     private boolean commandDataEqualsRequest(ApplicationCommandData acd, ApplicationCommandRequest acr) {
         if (!(acr.name().equals(acd.name())
             && acr.description().toOptional().map(desc -> desc.equals(acd.description())).orElse(false)
-            && defaultPermissionEquals(acr.defaultPermission(), acd.defaultPermission()) )) {
+            && dmPermissionEquals(acr.dmPermission(), acd.dmPermission())
+            && defaultMemberPermissionEquals(acr.defaultMemberPermissions(), acd.defaultMemberPermissions()) )) {
             return false;
         }
 
@@ -430,15 +428,28 @@ public class CommandRegister<
      * @param p2 a Possible representing the default permission value
      * @return true if the two possibles are equivalent in the context of being set for the default permission
      */
-    private boolean defaultPermissionEquals(Possible<Boolean> p1, Possible<Boolean> p2) {
-        // The data may not have the permission value present due to behavior as of D4J v3.2.0-RC2
-        // By default, D4J will set the requests' default permission to true
+    private boolean dmPermissionEquals(Possible<Boolean> p1, Possible<Boolean> p2) {
+        // The possibles always seem to be present as of D4J v3.2.3
+        // By default, D4J will set the requests' dm permission to true
 
         // Each half will return true if the value itself is true or if it is not present (two states for true)
         //  it will return false only when the value itself is false
         // In total this statement will return true only if the values equate to the default permission being true,
         //  or both values are false
         return p1.toOptional().orElse(true) == p2.toOptional().orElse(true);
+    }
+
+    /**
+     * The default member permission must be set in the {@link ApplicationCommandRequest} but doesn't have to be present
+     * in a {@link ApplicationCommandData}. This checks for equivalency between the two.
+     *
+     * @param o1 an Optional representing the default member permission value
+     * @param o2 an Optional representing the default member permission value
+     * @return true if the two optionals are equivalent in the context of being set for the default member permission
+     */
+    private boolean defaultMemberPermissionEquals(Optional<String> o1, Optional<String> o2) {
+        // Each half will return a set of permissions whereby default can be 0 if are not set
+        return o1.orElse("-1").equals(o2.orElse("-1"));
     }
 
     public CommandStructure<IC, IB, UC, UB, MC, MB> getCommandStructure() { return commandStructure; }
