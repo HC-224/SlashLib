@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 public class TogglePing extends TopCommand {
     public TogglePing() {
         super("toggle-ping", "add/remove the guild ping command for this guild");
+        hideFromDMs();
     }
 
     @Override

@@ -11,7 +11,6 @@ import reactor.core.publisher.Mono;
 public class UserInfo extends UserCommand {
     public UserInfo() {
         super("Info - User");
-        setUsableInDMs();
     }
 
     @Override

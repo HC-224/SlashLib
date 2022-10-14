@@ -18,6 +18,7 @@ public class TestBanEnforce extends TopCommand {
         setBotPermissions(Permission.BAN_MEMBERS);
         setDefaultMemberPermissions(Permission.BAN_MEMBERS);
         setEnforceMemberPermission();
+        hideFromDMs();
     }
 
     @Override

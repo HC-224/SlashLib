@@ -24,7 +24,6 @@ public class About extends TopCommand {
 
     public About() {
         super("status", "Show some information about the bot");
-        setUsableInDMs();
     }
 
     @Override

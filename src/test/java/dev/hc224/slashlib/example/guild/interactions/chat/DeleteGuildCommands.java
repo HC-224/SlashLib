@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 public class DeleteGuildCommands extends TopCommand {
     public DeleteGuildCommands() {
         super("delete-guild-cmds", "delete all guild commands for this guild");
+        hideFromDMs();
     }
 
     @Override

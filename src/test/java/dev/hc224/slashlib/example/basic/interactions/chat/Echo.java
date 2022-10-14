@@ -17,8 +17,6 @@ public class Echo extends TopCommand {
         super("echo", "have a message echoed back to you");
         addOption(OptionBuilder.requiredString("message", "the message to say back to you").build());
         addOption(OptionBuilder.optionalAttachment("file", "a file to repost back to you").build());
-        // Set that this message can be used in DMs, this will skip all user/bot permissions checks
-        setUsableInDMs();
     }
 
     @Override

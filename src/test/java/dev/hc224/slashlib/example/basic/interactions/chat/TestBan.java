@@ -15,6 +15,7 @@ public class TestBan extends TopCommand {
         super("test-ban", "check the permissions needed to ban a user");
         setBotPermissions(Permission.BAN_MEMBERS);
         setDefaultMemberPermissions(Permission.BAN_MEMBERS);
+        hideFromDMs();
     }
 
     @Override

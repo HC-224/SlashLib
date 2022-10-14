@@ -15,6 +15,7 @@ import java.util.Collections;
 public class SyncGuildCommands extends TopCommand {
     public SyncGuildCommands() {
         super("sync-guild-commands", "update guild commands for all connected guilds");
+        hideFromDMs();
     }
 
     @Override
