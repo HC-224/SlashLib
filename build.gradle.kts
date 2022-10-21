@@ -13,14 +13,17 @@ repositories {
     maven {
         url = uri("https://repo.maven.apache.org/maven2/")
     }
+    maven {
+        url = uri("https://oss.sonatype.org/content/repositories/snapshots")
+    }
 }
 
 dependencies {
-    implementation("com.discord4j:discord4j-core:3.2.3")
+    implementation("com.discord4j:discord4j-core:3.3.0-SNAPSHOT")
 }
 
 group = "dev.hc224"
-version = "1.3.0"
+version = "1.3.0-s1"
 description = "SlashLib"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
