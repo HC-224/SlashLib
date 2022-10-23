@@ -56,7 +56,6 @@ public class GenericEventReceiverImpl<
             .map(t2 -> t2.getT1().containsAll(baseCommand.getBotPermissions())
                     // If we're enforcing member permissions then check them as well.
                     && (!baseCommand.getEnforceMemberPermissions() || t2.getT2().containsAll(baseCommand.getDefaultMemberPermissions().get())))
-            .filter(Boolean::booleanValue)
             .filter(Boolean::booleanValue);
     }
 
