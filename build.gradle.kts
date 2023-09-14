@@ -19,11 +19,11 @@ repositories {
 }
 
 dependencies {
-    implementation("com.discord4j:discord4j-core:3.3.0-M1")
+    implementation("com.discord4j:discord4j-core:3.3.0-M2")
 }
 
 group = "dev.hc224"
-version = "1.3.0.s2-3.3.0-M1"
+version = "1.3.0.s2-3.3.0-M2"
 description = "SlashLib"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
